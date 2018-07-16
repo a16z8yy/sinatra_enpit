@@ -1,0 +1,27 @@
+<ul>
+    <li>Hi, <%= if @uname == ""
+                   @uname = "Guest"
+                   "Guest"
+               else
+                   @uname
+               end
+            %></li>
+    <li>Please submit your message.</li>
+</ul>
+<ul>
+    <form method="POST" action="/message">
+        <input name="uname" value=<%= @uname %>><br>
+        <input type="test" name="message" value="" size=128><br>
+        <input type="submit" value="submit">
+    </form>
+</ul>
+<ul>
+    <li>Messages :</li>
+</ul>
+<ul>
+    <b><%= @@messages %></b>
+</ul>
+<ul>
+    <li><a href="/login">Logoff</a></li>
+</ul>
+
