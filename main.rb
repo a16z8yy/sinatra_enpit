@@ -11,8 +11,6 @@ end
 
 post '/login' do
     @uname = params[:uname]
-    @uname = @uname.gsub!(/>/, "&gt")
-    @uname = @uname.gsub!(/</, "&lt")
     erb :message
 end
 
