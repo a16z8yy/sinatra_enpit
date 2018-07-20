@@ -11,6 +11,8 @@ end
 
 post '/login' do
     @uname = params[:uname]
+    @uname = @uname.gsub!(/>/, "&gt")
+    @uname = @uname.gsub!(/</, "&lt")
     erb :message
 end
 
@@ -25,6 +27,8 @@ end
 post '/message' do
     @uname = params[:uname]
     @message = "#{(Time.now).strftime("%Y/%m/%d %H:%M")}" + "  " + @uname + "-san wrote:<br>" + params[:message]
+    @message = @message.gsub!(/</, "&lt")
+    @message = @message.gsub!(/>/, "&gt")
     @@messages = @message + "<br><br>" + @@messages
     puts @@messages
     erb :message
