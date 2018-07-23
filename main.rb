@@ -20,20 +20,26 @@ post '/login' do
     erb :message
 end
 
-
+@@msgSet = []
+@@msgNumber = 0
 @@messages = ""
 
 get '/message' do
-    
     erb :message
 end
 
 post '/message' do
-    @uname = params[:uname]
-    @message = "#{(Time.now).strftime("%Y/%m/%d %H:%M")}" + "  " + @uname + "-san wrote:<br>" + params[:message]
-    @message = @message.gsub(/</, "&lt")
-    @message = @message.gsub(/>/, "&gt") 
-    @@messages = @message + "<br><br>" + @@messages
-    puts @@messages
+    @msgTime = "#{(Time.now).strftime("%Y/%m%d %H:%M - ")}"
+    @uname = params[:uname] + " san wrote:"
+    @msgDes = params[:message]
+    @msgDes = @msgDes.gsub(/</, "&lt")     	 # sunitize for XSS vulnerablity
+    @msgDes = @msgDes.gsub(/>/, "&gt")
+    @@msgNumber += 1
+    @@msgSet << [ @@msgNumber, @msgTime, @uname, @msgDes]
+    puts @@msgSet
+    i = @@msgSet.length
+    msg = "#{'(' + @@msgNumber.to_s + ') '}" 	# Add message number, prepare for delete message
+    msg = msg + @@msgSet[i-1][1] + @@msgSet[i-1][2] + '<br>'
+    @@messages = msg + @@msgSet[i-1][3] + '<hr>' + @@messages
     erb :message
 end
